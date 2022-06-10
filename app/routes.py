@@ -7,6 +7,7 @@ import os
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+from app.models.product import Product
 
 def get_item(ancestor, selector, attribute=None, return_list=False):
     try:
@@ -40,7 +41,9 @@ def index(name="Hello World"):
 @app.route('/extract', methods=["POST","GET"])
 def extract():
     if request.method == "POST":
-        product_id =request.form.get("product_id")    
+        product_id =request.form.get("product_id")
+        product=Product(product_id)  
+        product.extract_product() 
         url = f"https://www.ceneo.pl/{product_id}#tab=reviews"
         all_opinions = []
         while(url):
